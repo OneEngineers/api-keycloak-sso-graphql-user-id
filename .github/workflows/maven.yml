@@ -1,18 +1,10 @@
-# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   lint:
@@ -21,9 +13,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
+          distribution: "temurin"
+          java-version: "17"
+          cache: "maven"
       - name: Lint check
         run: mvn checkstyle:check
 
@@ -34,9 +26,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
+          distribution: "temurin"
+          java-version: "17"
+          cache: "maven"
       - name: Run unit tests
         run: mvn test
 
@@ -47,8 +39,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
-          cache: 'maven'
+          distribution: "temurin"
+          java-version: "17"
+          cache: "maven"
       - name: Package app
         run: mvn clean package
