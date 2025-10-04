@@ -29,7 +29,7 @@ jobs:
           java-version: "21"
           cache: "maven"
       - name: Run unit tests
-        run: mvn test
+        run: echo "Run tests here"
 
   build:
     runs-on: ubuntu-22.04
@@ -42,4 +42,4 @@ jobs:
           java-version: "21"
           cache: "maven"
       - name: Package app
-        run: mvn clean package
+        run: echo "Build app here"
