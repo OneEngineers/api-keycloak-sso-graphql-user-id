@@ -1,7 +1,9 @@
 # api-keycloak-sso-user-master-id
 
 - run app: ./mvnw spring-boot:run
+- clear chach: ./mvnw dependency:purge-local-repository
+- clean install: ./mvnw clean install
 
-## Keycloack
+## Keycloak
 
-Note: makesure create database instance allow conneted keyclock server
+Note: make sure create database instance allow connected keycloak server

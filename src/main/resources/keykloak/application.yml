@@ -1,0 +1,49 @@
+spring:
+  graphql:
+    graphiql:
+      enabled: true
+    path: /graphql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/api_sso_auth
+    username: api_sso_user
+    password: api_sso_password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate.transaction.jta.platform: org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform
+
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: your-realm
+  resource: your-client-id
+  public-client: true
+  principal-attribute: preferred_username
+  
+app:
+  keycloak:
+    admin:
+      server-url: http://localhost:8080/auth
+      realm: master
+      client-id: admin-cli
+      username: admin
+      password: admin
+    user:
+      realm: your-realm
+      client-id: your-client-id
+      client-secret: your-client-secret
+
+Krupp-client:
+  keycloak:
+    admin:
+      server-url: http://localhost:8080/auth
+      realm: master
+      client-id: admin-cli
+      username: admin
+      password: admin
+    user:
+      realm: your-realm
+      client-id: your-client-id
+      client-secret: your-client-secret
