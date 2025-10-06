@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "person")
+@Table(name = "users")
 public class UserEntity {
 
     @GeneratedValue

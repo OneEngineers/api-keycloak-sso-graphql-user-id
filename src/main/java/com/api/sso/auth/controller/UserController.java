@@ -1,5 +1,7 @@
 package com.api.sso.auth.controller;
 
+import com.api.sso.auth.models.UserModel;
+import com.api.sso.auth.models.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -25,7 +27,7 @@ public class UserController {
     @MutationMapping
     public UserResponse createUser(@Argument String name, @Argument String email) {
         UserModel user = new UserModel();
-        user.setName(name);
+        user.setUsername(name);
         user.setEmail(email);
         return userService.save(user);
     }

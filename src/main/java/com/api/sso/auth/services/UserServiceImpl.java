@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepositories userRepository;
 
-//    @Autowired
-//    private KeycloakService keycloakService;
+    @Autowired
+    private KeycloakService keycloakService;
 
     @Value("${app.keycloak.user.client-id}")
     private String clientId;
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     // Find all users
-    public UserResponse findAll() {
+    public UserServiceImpl findAll() {
         List<UserEntity> userEntity = userRepository.findAll();
         List<UserModel> userList = objectMapper.convertValue(userEntity, new TypeReference<List<UserModel>>() {});
         return UserResponse.builder()
@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService {
     public UserResponse save(UserModel user) {
         try {
             UserEntity userEntity = new UserEntity();
-            userEntity.setName(user.getName());
             userEntity.setEmail(user.getEmail());
             UserEntity savedUser = userRepository.save(userEntity);
             UserModel userModel = objectMapper.convertValue(savedUser, UserModel.class);
@@ -106,9 +105,6 @@ public class UserServiceImpl implements UserService {
                 UserEntity userEntity = existingUser.get();
 
                 // Update fields (set new values from the updatedUserEntity)
-                if (updatedUserModel.getName() != null) {
-                    userEntity.setName(updatedUserModel.getName());
-                }
                 if (updatedUserModel.getEmail() != null) {
                     userEntity.setEmail(updatedUserModel.getEmail());
                 }
