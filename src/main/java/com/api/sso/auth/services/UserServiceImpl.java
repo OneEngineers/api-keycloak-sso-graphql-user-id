@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepositories userRepository;
 
-//    @Autowired
-//    private KeycloakService keycloakService;
+    @Autowired
+    private KeycloakService keycloakService;
 
     @Value("${app.keycloak.user.client-id}")
     private String clientId;
