@@ -23,9 +23,8 @@ public interface KeycloakJwtAuthConverter {
         Map<String, Object> resourceAccess = jwt.getClaim("resource_access");
         Collection<String> roles = Set.of();
 
-        if (realmAccess != null && realmAccess.containsKey("roles")) {
+        if (realmAccess != null && realmAccess.containsKey("roles"))
             roles = (Collection<String>) realmAccess.get("roles");
-        }
 
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()))

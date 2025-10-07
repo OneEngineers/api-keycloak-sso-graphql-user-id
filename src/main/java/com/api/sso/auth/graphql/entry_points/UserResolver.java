@@ -1,4 +1,4 @@
-package com.api.sso.auth.infrastructure.entry_points;
+package com.api.sso.auth.graphql.entry_points;
 
 import com.api.sso.auth.domain.models.User;
 import com.api.sso.auth.domain.usecases.UserService;
