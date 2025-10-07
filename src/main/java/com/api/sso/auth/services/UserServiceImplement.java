@@ -1,10 +1,7 @@
 package com.api.sso.auth.services;
 
 import com.api.sso.auth.entity.UserEntity;
-import com.api.sso.auth.models.LoginResponse;
-import com.api.sso.auth.models.UserModel;
-import com.api.sso.auth.models.UserResponse;
-import com.api.sso.auth.repositories.UserRepositories;
+import com.api.sso.auth.entity.UserResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +18,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImplement implements UserService {
     @Autowired
     ObjectMapper objectMapper;
 
     @Autowired
-    private UserRepositories userRepository;
+    private UserRepositoriesImpl userRepository;
 
     @Autowired
     private KeycloakService keycloakService;
@@ -46,9 +43,9 @@ public class UserServiceImpl implements UserService {
     private final RestTemplate restTemplate = new RestTemplate();
 
     // Find all users
-    public UserServiceImpl findAll() {
-        List<UserEntity> userEntity = userRepository.findAll();
-        List<UserModel> userList = objectMapper.convertValue(userEntity, new TypeReference<List<UserModel>>() {});
+    public UserEntity findAll() {
+        List<com.api.sso.auth.entity.UserEntity> userEntity = userRepository.findAll();
+        List<UserEntity> userList = objectMapper.convertValue(userEntity, new TypeReference<List<UserEntity>>() {});
         return UserResponse.builder()
                 .userList(userList)
                 .message("Successfully fetched the user list")
@@ -56,9 +53,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserResponse findById(Long id) {
-        Optional<UserEntity> userEntity = userRepository.findById(id);
+        Optional<com.api.sso.auth.entity.UserEntity> userEntity = userRepository.findById(id);
         if (userEntity.isPresent()) {
-            UserModel user = objectMapper.convertValue(userEntity.get(), UserModel.class);
+            UserEntity user = objectMapper.convertValue(userEntity.get(), UserEntity.class);
             return UserResponse.builder()
                     .user(user)
                     .message("Fetched user successfully for id - " + id)
@@ -71,12 +68,12 @@ public class UserServiceImpl implements UserService {
     }
 
     // Save a new user
-    public UserResponse save(UserModel user) {
+    public UserResponse save(UserEntity user) {
         try {
-            UserEntity userEntity = new UserEntity();
+            com.api.sso.auth.entity.UserEntity userEntity = new com.api.sso.auth.entity.UserEntity();
             userEntity.setEmail(user.getEmail());
-            UserEntity savedUser = userRepository.save(userEntity);
-            UserModel userModel = objectMapper.convertValue(savedUser, UserModel.class);
+            com.api.sso.auth.entity.UserEntity savedUser = userRepository.save(userEntity);
+            UserEntity userModel = objectMapper.convertValue(savedUser, UserEntity.class);
             return UserResponse.builder()
                     .user(userModel)
                     .message("User Saved Successfully")
@@ -96,20 +93,20 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    public UserResponse update(Long id, UserModel updatedUserModel) {
+    public UserResponse update(Long id, UserEntity updatedUserEntity) {
         try {
             // Check if an account exists
-            Optional<UserEntity> existingUser = userRepository.findById(id);
+            Optional<com.api.sso.auth.entity.UserEntity> existingUser = userRepository.findById(id);
 
             if (existingUser.isPresent()) {
-                UserEntity userEntity = existingUser.get();
+                com.api.sso.auth.entity.UserEntity userEntity = existingUser.get();
 
                 // Update fields (set new values from the updatedUserEntity)
-                if (updatedUserModel.getEmail() != null) {
-                    userEntity.setEmail(updatedUserModel.getEmail());
+                if (updatedUserEntity.getEmail() != null) {
+                    userEntity.setEmail(updatedUserEntity.getEmail());
                 }
                 userRepository.save(userEntity);
-                UserModel updatedUser = objectMapper.convertValue(userEntity, UserModel.class);
+                UserEntity updatedUser = objectMapper.convertValue(userEntity, UserEntity.class);
 
                 return UserResponse.builder()
                         .user(updatedUser)
@@ -126,9 +123,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse registerUser(UserModel userModel) {
+    public UserResponse registerUser(UserEntity userModel) {
         keycloakService.createUser(userModel.getUsername(), userModel.getEmail(), userModel.getFirstName(), userModel.getLastName(), userModel.getPassword());
-        UserEntity userEntity = new UserEntity();
+        com.api.sso.auth.entity.UserEntity userEntity = new com.api.sso.auth.entity.UserEntity();
         userEntity.setUsername(userModel.getUsername());
         userEntity.setEmail(userModel.getEmail());
         userEntity.setName(userModel.getFirstName() + " " + userModel.getLastName());

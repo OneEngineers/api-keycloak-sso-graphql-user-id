@@ -1,7 +1,8 @@
 package com.api.sso.auth.controller;
 
-import com.api.sso.auth.models.UserModel;
-import com.api.sso.auth.models.UserResponse;
+import com.api.sso.auth.entity.UserEntity;
+import com.api.sso.auth.entity.UserResponse;
+import com.api.sso.auth.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -26,7 +27,7 @@ public class UserController {
 
     @MutationMapping
     public UserResponse createUser(@Argument String name, @Argument String email) {
-        UserModel user = new UserModel();
+        UserEntity user = new UserEntity();
         user.setUsername(name);
         user.setEmail(email);
         return userService.save(user);
@@ -34,7 +35,7 @@ public class UserController {
 
     @MutationMapping
     public UserResponse updateUser(@Argument Long id, @Argument String name, @Argument String email) {
-        UserModel user = new UserModel();
+        UserEntity user = new UserEntity();
         user.setName(name);
         user.setEmail(email);
         return userService.update(id, user);
@@ -47,7 +48,7 @@ public class UserController {
 
     @MutationMapping
     public UserResponse registerUser(@Argument String username, @Argument String email, @Argument String firstName, @Argument String lastName, @Argument String password) {
-        UserModel user = new UserModel();
+        UserEntity user = new UserEntity();
         user.setUsername(username);
         user.setEmail(email);
         user.setFirstName(firstName);

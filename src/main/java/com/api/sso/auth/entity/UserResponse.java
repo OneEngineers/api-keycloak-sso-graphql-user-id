@@ -1,4 +1,4 @@
-package com.api.sso.auth.models;
+package com.api.sso.auth.entity;
 
 import lombok.*;
 
@@ -11,6 +11,6 @@ import java.util.List;
 public class UserResponse {
 
     String message;
-    UserModel user;
-    List<UserModel> userList;
+    UserEntity user;
+    List<UserEntity> userList;
 }
