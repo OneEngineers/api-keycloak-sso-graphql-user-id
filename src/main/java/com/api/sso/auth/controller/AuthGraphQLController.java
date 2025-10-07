@@ -2,7 +2,7 @@ package com.api.sso.auth.controller;
 
 import com.api.sso.auth.entity.UserEntity;
 import com.api.sso.auth.repositories.UserRepository;
-import com.api.sso.auth.services.JwtService;
+import com.api.sso.auth.utilities.JwtServiceUser;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -12,7 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Map;
 
 @Controller
@@ -20,13 +20,13 @@ public class AuthGraphQLController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
-    private final JwtService jwtService;
+    private final JwtServiceUser jwtServiceUser;
 
-    public AuthGraphQLController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtService jwtService) {
+    public AuthGraphQLController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, JwtServiceUser jwtServiceUser) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
+        this.jwtServiceUser = jwtServiceUser;
     }
 
     @MutationMapping
@@ -44,7 +44,7 @@ public class AuthGraphQLController {
                 new UsernamePasswordAuthenticationToken(input.get("username"), input.get("password"))
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtService.generateToken(input.get("username"));
+        String token = jwtServiceUser.generateToken(input.get("username"));
         return Map.of("token", token);
     }
 
