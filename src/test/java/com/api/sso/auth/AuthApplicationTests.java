@@ -1,6 +1,6 @@
 package com.api.sso.auth;
 
-import com.api.sso.auth.domain.models.User;
+import com.api.sso.auth.entity.UserEntity;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,9 +27,9 @@ class AuthApplicationTests {
 				.variable("password", "password")
 				.execute()
 				.path("register")
-				.entity(User.class)
+				.entity(UserEntity.class)
 				.satisfies(user -> {
-					assertThat(user.getName()).isEqualTo("Test User");
+					assertThat(user.getUsername()).isEqualTo("Test User");
 					assertThat(user.getEmail()).isEqualTo("test@example.com");
 				});
 	}

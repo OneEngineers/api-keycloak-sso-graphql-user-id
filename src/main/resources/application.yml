@@ -4,13 +4,13 @@ spring:
   application:
     name: demo-app
   datasource:
-    url: jdbc:h2:mem:api_sso_auth_db
+    url: jdbc:postgresql://localhost:5432/api_sso_auth_db
     driverClassName: org.postgresql.Driver
-    username: api_sso_user
-    password: api_sso_password
+    username: ${DB_USERNAME:api_sso_user}
+    password: ${DB_PASSWORD:api_sso_password}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     show-sql: true
   # Keycloak  configuration
   security:
@@ -22,8 +22,8 @@ spring:
 
 keycloak:
   auth-server-url: ${KEYCLOAK_URL:http://localhost:8080}
-  realm: ${KEYCLOAK_REALM:master}
+  realm: ${KEYCLOAK_REALM:myrealm}
   resource: ${KEYCLOAK_CLIENT_ID:admin-cli}
   admin:
-    username: ${KEYCLOAK_ADMIN_USERNAME:admin}
-    password: ${KEYCLOAK_ADMIN_PASSWORD:admin}
+    username: ${KEYCLOAK_ADMIN_USERNAME}
+    password: ${KEYCLOAK_ADMIN_PASSWORD}
